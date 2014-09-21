@@ -10,4 +10,18 @@ class MoviesService
     end
   end
 
+  def self.downloadMagnet magnet, &block
+    url = "#{Settings::endpoint}/api/download/#{magnet}"
+    puts url
+    AFMotion::JSON.get(url) do |result|
+      puts result
+
+      err = nil
+      if result.failure?
+        err = result.error.localizedDescription
+      end
+      block.call(err)
+    end
+  end
+
 end

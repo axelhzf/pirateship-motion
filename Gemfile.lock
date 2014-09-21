@@ -78,6 +78,7 @@ DEPENDENCIES
   ProMotion-formotion
   afmotion
   formotion
+  motion-cocoapods
   motion-kit
   rake
   sugarcube
