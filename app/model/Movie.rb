@@ -1,6 +1,6 @@
 class Movie
 
-  PROPERTIES = ["MovieTitle", "MovieTitleClean", "MovieYear", "TorrentUrl"]
+  PROPERTIES = ["MovieTitle", "MovieTitleClean", "MovieYear", "TorrentUrl", "TorrentMagnetUrl"]
 
   PROPERTIES.each { |prop|
     attr_accessor prop
