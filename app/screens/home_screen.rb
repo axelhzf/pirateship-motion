@@ -26,8 +26,8 @@ class HomeScreen < PM::TableScreen
     [{
          cells: @movies.map do |movie|
            {
-               title: movie.MovieTitleClean,
-               subtitle: movie.MovieYear,
+               title: movie.title,
+               subtitle: "#{movie.year}",
                action: :movie_details,
                arguments: {movie: movie}
            }

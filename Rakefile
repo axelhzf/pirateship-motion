@@ -13,5 +13,7 @@ Motion::Project::App.setup do |app|
   app.name = 'Pirateship'
   app.pods do
     pod 'SVProgressHUD'
+    pod 'SDWebImage'
   end
+
 end

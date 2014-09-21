@@ -5,10 +5,13 @@ class MovieScreen < PM::Screen
   def on_load
     @layout = MovieLayout.new(root: self.view).build
 
-    self.title = @movie.MovieTitleClean
+    self.title = @movie.title
 
     @label = @layout.get(:label)
-    @label.text = @movie.MovieTitleClean
+    @label.text = @movie.title
+
+    @poster = @layout.get(:poster)
+    @poster.setImageWithURL(@movie.poster.nsurl, placeholderImage: "Default-568h".uiimage)
 
     @button = @layout.get(:button)
     @button.on(:touch) do
@@ -38,6 +41,7 @@ class MovieLayout < MotionKit::Layout
   def layout
     root :root do
       add UILabel, :label
+      add UIImageView, :poster
       add UIButton, :button
     end
   end
@@ -59,18 +63,31 @@ class MovieLayout < MotionKit::Layout
 
   end
 
+  def poster_style
+
+    constraints do
+      top.equals(:label, :bottom)
+      left.equals(0)
+      width.equals(:label)
+      height.equals(300)
+    end
+
+  end
+
   def button_style
     title 'Download'
     background_color '#51A8E7'.uicolor
     layer do
       corner_radius 7.0
     end
+
     constraints do
       left.is 8
       #right.is 8
       width.equals(:superview).minus(2 * 8)
-      top.equals(:label, :bottom).plus(20)
+      top.equals(:poster, :bottom).plus(20)
     end
+
   end
 
   def add_constraints(controller)
