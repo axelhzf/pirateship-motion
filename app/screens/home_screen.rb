@@ -29,7 +29,8 @@ class HomeScreen < PM::TableScreen
                title: movie.title,
                subtitle: "#{movie.year}",
                action: :movie_details,
-               arguments: movie
+               arguments: movie,
+               accessory_type: :disclosure_indicator
            }
          end
      }]
