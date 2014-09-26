@@ -1,6 +1,6 @@
-class MoviesService
+class PirateshipService
 
-  def self.list &block
+  def self.movies &block
     AFMotion::JSON.get("#{Settings::endpoint}/api/movies/featured") do |result|
       if result.success?
         movies = result.object.map do |json|

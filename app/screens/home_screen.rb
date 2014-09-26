@@ -11,7 +11,7 @@ class HomeScreen < PM::TableScreen
   end
 
   def load_async
-    MoviesService::list do |movies|
+    PirateshipService::movies do |movies|
       @movies = movies
       stop_refreshing
       update_table_data

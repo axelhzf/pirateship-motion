@@ -32,7 +32,7 @@ class MovieScreen < PM::Screen
 
   def download
     SVProgressHUD.show
-    MoviesService.downloadMagnet(@movie.magnet) do |error|
+    PirateshipService.downloadMagnet(@movie.magnet) do |error|
       if error
         SVProgressHUD.showErrorWithStatus error
       else

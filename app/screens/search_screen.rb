@@ -22,7 +22,7 @@ class SearchScreen < PM::TableScreen
   end
 
   def searchDisplayController(controller, shouldReloadTableForSearchString:search_string)
-    MoviesService::find search_string do |torrents|
+    PirateshipService::find search_string do |torrents|
       @torrents = torrents
       update_table_data
       controller.searchResultsTableView.reloadData
