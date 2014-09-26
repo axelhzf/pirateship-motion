@@ -1,6 +1,6 @@
 class SettingsScreen < PM::FormotionScreen
   title "Settings"
-  tab_bar_item system_item: :more, title: "Settings"
+  tab_bar_item item: "icon_settings", title: "Settings"
 
   def on_load
     puts Settings::endpoint

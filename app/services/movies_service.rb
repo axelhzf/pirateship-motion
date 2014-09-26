@@ -24,4 +24,18 @@ class MoviesService
     end
   end
 
+
+  def self.find query, &block
+    AFMotion::JSON.get("#{Settings::endpoint}/api/find/#{query}") do |result|
+      if result.success?
+        torrents = result.object["torrents"].map do |json|
+          Torrent.new(json)
+        end
+        block.call(torrents)
+      elsif result.failure?
+        block.call([])
+      end
+    end
+  end
+
 end

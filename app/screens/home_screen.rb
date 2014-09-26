@@ -1,6 +1,6 @@
 class HomeScreen < PM::TableScreen
   title "Movies"
-  tab_bar_item system_item: :downloads
+  tab_bar_item item: "icon_movies", title: "Movies"
 
   refreshable
   searchable placeholder: "Search movie"
@@ -29,14 +29,14 @@ class HomeScreen < PM::TableScreen
                title: movie.title,
                subtitle: "#{movie.year}",
                action: :movie_details,
-               arguments: {movie: movie}
+               arguments: movie
            }
          end
      }]
   end
 
   def movie_details(movie)
-    open MovieScreen.new(movie)
+    open MovieScreen.new(:movie => movie)
   end
 
 end
