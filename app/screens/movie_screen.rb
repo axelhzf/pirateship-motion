@@ -26,8 +26,6 @@ class MovieScreen < PM::Screen
       open WebScreen.new(:movie => self.movie)
     end
 
-    @tab_bar.tabBar.translucent = false
-
   end
 
   def download
