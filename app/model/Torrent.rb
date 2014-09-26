@@ -14,8 +14,16 @@ class Torrent
     end
   end
 
-  def to_s
-    "#{@title} - #{@link} - #{@seeds} - #{@leechers}"
+  def resolution
+    title = @title.downcase
+    if title.include? "1080p"
+      "1080p"
+    elsif title.include? "720p"
+      "720p"
+    else
+      "sd"
+    end
   end
+
 
 end

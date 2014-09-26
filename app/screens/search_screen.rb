@@ -13,7 +13,7 @@ class SearchScreen < PM::TableScreen
             cells: @torrents.map do |torrent|
               {
                   title: torrent.title,
-                  subtitle: "#{torrent.seeds} / #{torrent.leechers}",
+                  subtitle: "#{torrent.resolution} #{torrent.seeds} / #{torrent.leechers}",
                   action: :download,
                   arguments: torrent
               }
