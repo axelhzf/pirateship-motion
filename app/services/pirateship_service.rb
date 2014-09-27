@@ -1,39 +1,45 @@
 class PirateshipService
 
-  def self.movies &block
-    AFMotion::JSON.get("#{Settings::endpoint}/api/movies/featured") do |result|
-      if result.success?
-        movies = result.object.map do |json|
-          Movie.new(json)
-        end
-        block.call(movies)
-      elsif result.failure?
-        block.call([])
+  def self.instance
+    Dispatch.once { @instance ||= new }
+    @instance
+  end
+
+  def movies(&block)
+    self.get("api/movies/featured") do |err, response|
+      if err != nil
+        block.call(err)
+      else
+        movies = response.map { |movie| Movie.new(movie) }
+        block.call(nil, movies)
       end
     end
   end
 
-  def self.downloadMagnet magnet, &block
-    url = "#{Settings::endpoint}/api/download"
-    AFMotion::JSON.get(url, magnet: magnet) do |result|
-      err = nil
-      if result.failure?
-        err = result.error.localizedDescription
-      end
+  def download(magnet, &block)
+    self.get("api/download", :magnet => magnet) do |err, response|
       block.call(err)
     end
   end
 
+  def find(query, &block)
+    self.get("api/find/#{query}") do |err, result|
+      if err != nil
+        block.call(err)
+      else
+        torrents = result['torrents'].map {|torrent| Torrent.new(torrent)}
+        block.call(nil, torrents)
+      end
+    end
+  end
 
-  def self.find query, &block
-    AFMotion::JSON.get("#{Settings::endpoint}/api/find/#{query}") do |result|
+  def get(path, params = {}, &block)
+    AFMotion::JSON.get("#{Settings::endpoint}/#{path}", params) do |result|
       if result.success?
-        torrents = result.object["torrents"].map do |json|
-          Torrent.new(json)
-        end
-        block.call(torrents)
+        block.call(nil, result.object)
       elsif result.failure?
-        block.call([])
+        err = result.error.localizedDescription
+        block.call(err, nil)
       end
     end
   end

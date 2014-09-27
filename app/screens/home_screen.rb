@@ -11,10 +11,14 @@ class HomeScreen < PM::TableScreen
   end
 
   def load_async
-    PirateshipService::movies do |movies|
-      @movies = movies
+    PirateshipService.instance.movies do |err, movies|
       stop_refreshing
-      update_table_data
+      if err != nil
+        SVProgressHUD.showErrorWithStatus err
+      else
+        @movies = movies
+        update_table_data
+      end
     end
   end
 

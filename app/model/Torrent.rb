@@ -15,13 +15,15 @@ class Torrent
   end
 
   def resolution
-    title = @title.downcase
-    if title.include? "1080p"
-      "1080p"
-    elsif title.include? "720p"
-      "720p"
-    else
-      "sd"
+    if @title != nil
+      title = @title.downcase
+      if title.include? "1080p"
+        "1080p"
+      elsif title.include? "720p"
+        "720p"
+      else
+        "sd"
+      end
     end
   end
 

@@ -3,7 +3,6 @@ class SearchScreen < PM::TableScreen
   tab_bar_item item: "icon_search", title: "Search"
   searchable placeholder: "Search torrent"
 
-
   def on_load
     @torrents = []
   end
@@ -22,16 +21,27 @@ class SearchScreen < PM::TableScreen
   end
 
   def searchDisplayController(controller, shouldReloadTableForSearchString:search_string)
-    PirateshipService::find search_string do |torrents|
-      @torrents = torrents
-      update_table_data
-      controller.searchResultsTableView.reloadData
+    PirateshipService.instance.find(search_string) do |err, torrents|
+      if err != nil
+        SVProgressHUD.showErrorWithStatus err
+      else
+        @torrents = torrents
+        update_table_data
+        controller.searchResultsTableView.reloadData
+      end
     end
     false
   end
 
   def download(torrent)
-    puts "Download #{torrent.link}"
+    SVProgressHUD.show
+    PirateshipService.instance.download(torrent.link) do |error|
+      if error
+        SVProgressHUD.showErrorWithStatus error
+      else
+        SVProgressHUD.dismiss
+      end
+    end
   end
 
 end
